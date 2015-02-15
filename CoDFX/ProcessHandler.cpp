@@ -47,7 +47,7 @@ HANDLE OpenFirstSupportedProcess(BYTE** pHealthAddressPtr)
 			{
 				if (_wcsicmp(entry.szExeFile, gSupportedProcessInfo[i].string) == 0)
 				{  
-					HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
+					HANDLE hProcess = OpenProcess(PROCESS_VM_READ, FALSE, entry.th32ProcessID);
 					if(hProcess)
 					{
 						(*pHealthAddressPtr) = gSupportedProcessInfo[i].healthAddress;
