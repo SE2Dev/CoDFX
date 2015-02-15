@@ -21,7 +21,7 @@
 //SOFTWARE.
 
 #include "LFX2.h" //Can be found as part of the AlienFX SDK
-#include <TlHelp32.h>
+#include "ProcessHandler.h"
 #include <iostream>
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -35,66 +35,57 @@ int _tmain(int argc, _TCHAR* argv[])
 		LFX2UPDATE LFX_Update = (LFX2UPDATE)GetProcAddress(hLibrary, LFX_DLL_UPDATE);
 		LFX2LIGHT LFX_Light = (LFX2LIGHT)GetProcAddress(hLibrary,LFX_DLL_LIGHT);
 
-		LFX_Initialize();
+		BYTE* pHealth = nullptr;
+		HANDLE hProcess = OpenFirstSupportedProcess(&pHealth);
 
-		PROCESSENTRY32 entry;
-		entry.dwSize = sizeof(PROCESSENTRY32);
-		HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-
-		if (Process32First(snapshot, &entry) == TRUE)
+		if(hProcess && pHealth)
 		{
-			bool done = false;
-			while (Process32Next(snapshot, &entry) == TRUE && !done)
+			ShowWindow(GetConsoleWindow(), SW_MINIMIZE);
+			LFX_Initialize();
+			
+			int playerHealth = 0;
+			int playerMaxHealth = 0;
+
+			int readBuf = NULL;
+			SIZE_T numofbytesread = NULL;
+
+			while(ReadProcessMemory(hProcess,pHealth,&readBuf,sizeof(int),&numofbytesread))
 			{
-				if (_wcsicmp(entry.szExeFile, L"BlackOps.exe") == 0)
-				{  
-					printf("Found Process\n\n");
-					HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
-					DWORD ProcessID = GetProcessId(hProcess);
+				if(playerHealth != readBuf) //prevents updating unnecessarily
+				{
+					playerHealth = readBuf;
 
-					BYTE* HealthAddress = (BYTE*)0x01A7987C;
-
-					bool running = true;
-					int health = 0, max_health = 0, buf = 0;
-					while(running == true)
-					{
-						SIZE_T numofbytesread = 0;
-						if(!ReadProcessMemory(hProcess,HealthAddress,&health,sizeof(int),&numofbytesread))
-						{
-							running = false;
-							break;
-						}
-						if(health != buf)
-						{
-							health = buf;
-
-							if(health > max_health)
-								max_health = health;
-							else if(health <= 0)
-								max_health = 100;
+					if(playerHealth > playerMaxHealth)
+						playerMaxHealth = playerHealth;
+					else if(playerHealth <= 0)
+						playerMaxHealth = 100;
 						
-							LFX_Reset();
-							unsigned int lightSettings = 0;
-							unsigned int brightness = (max_health-health)*0x1000000;
-							lightSettings = LFX_RED | brightness;
-							LFX_Light(LFX_ALL,lightSettings);
-							LFX_Update();
-								
-							Sleep(10);
-						}
-					}
+					LFX_Reset();
 
-					CloseHandle(hProcess);
-					done = true;
-				}
+					unsigned int brightness = (playerMaxHealth-playerHealth)*0x1000000;
+					unsigned int lightSettings = LFX_RED | brightness;
+
+					LFX_Light(LFX_ALL,lightSettings);
+					LFX_Update();
+
+					Sleep(10);
+				}				
 			}
+			
+			LFX_Release();
+			CloseHandle(hProcess);	
+			FreeLibrary(hLibrary);
 		}
-		LFX_Release();
-		CloseHandle(snapshot);	
+		else
+		{
+			MessageBox(0,L"Couldn't find a supported process\n",0,0);
+			FreeLibrary(hLibrary);
+			return 0;
+		}	
 	}
 	else
 	{
-		printf("Couldnt load LightFX.dll\n");
+		MessageBox(0,L"Couldn't load LightFX.dll\n",0,0);
 	}
 	return 0;
 }

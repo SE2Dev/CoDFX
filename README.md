@@ -5,5 +5,9 @@ AlienFX health monitor for Call of Duty: Black Ops
 - AlienFX SDK
 
 ##How to Use:
-- Launch a copy of Call of Duty: Black Ops
-- Launch CoDFX (This will run in the background until Call of Duty: Black Ops is closed)
+- Launch a supported game
+- Launch CoDFX (This will run in the background until the game is closed)
+
+###Supported Games:
+- Call of Duty: World at War (Steam)
+- Call of Duty: Black Ops (Steam)
