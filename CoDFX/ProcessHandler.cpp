@@ -1,6 +1,6 @@
 //The MIT License (MIT)
 //
-//Copyright (c) 2015 
+//Copyright (c) 2015
 //
 //Permission is hereby granted, free of charge, to any person obtaining a copy
 //of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,10 @@ sProcessInfo gSupportedProcessInfo[] =
 	{L"CoDWaW.exe",		(BYTE*)0x0176C8B8},
 	{L"CoDWaWmp.exe",	(BYTE*)0x0098FE7C},
 	{L"BlackOps.exe",	(BYTE*)0x01A7987C},
-	{L"BlackOpsMP.exe",	(BYTE*)0x00E67E6C}
+	{L"BlackOpsMP.exe",	(BYTE*)0x00E67E6C},
+	{L"t6sp.exe",		(BYTE*)0x01FAB220},
+	{L"t6mp.exe",		(BYTE*)0x021EF968},
+	{L"t6zm.exe",		(BYTE*)0x021C5868}
 };
 
 DWORD gSupportedProcessCount = sizeof(gSupportedProcessInfo) / sizeof(sProcessInfo);
