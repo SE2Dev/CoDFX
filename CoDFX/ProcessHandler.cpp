@@ -24,10 +24,12 @@
 
 sProcessInfo gSupportedProcessInfo[] = 
 {
+	{L"iw3sp.exe",		(BYTE*)0x00C8155C},
+	{L"iw3mp.exe",		(BYTE*)0x00C5FA9C},
 	{L"CoDWaW.exe",		(BYTE*)0x0176C8B8},
 	{L"CoDWaWmp.exe",	(BYTE*)0x0098FE7C},
 	{L"BlackOps.exe",	(BYTE*)0x01A7987C},
-	{L"BlackOpsMP.exe", (BYTE*)0x00E67E6C}
+	{L"BlackOpsMP.exe",	(BYTE*)0x00E67E6C}
 };
 
 DWORD gSupportedProcessCount = sizeof(gSupportedProcessInfo) / sizeof(sProcessInfo);

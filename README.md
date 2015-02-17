@@ -1,5 +1,5 @@
 # CoDFX
-AlienFX health monitor for Call of Duty: World at War and Call of Duty: Black Ops
+AlienFX health monitor for Call of Duty
 
 ##Build Requirements:
 - AlienFX SDK
@@ -9,5 +9,6 @@ AlienFX health monitor for Call of Duty: World at War and Call of Duty: Black Op
 - Launch CoDFX (This will run in the background until the game is closed)
 
 ##Supported Games:
+- Call of Duty 4: Modern Warfare (Steam)
 - Call of Duty: World at War (Steam)
 - Call of Duty: Black Ops (Steam)
