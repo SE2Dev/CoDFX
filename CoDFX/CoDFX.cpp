@@ -26,6 +26,8 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
+
 	HINSTANCE hLibrary = LoadLibrary(_T("LightFX.dll"));
 	if(hLibrary)
 	{
@@ -40,7 +42,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		if(hProcess && pHealth)
 		{
-			ShowWindow(GetConsoleWindow(), SW_MINIMIZE);
 			LFX_Initialize();
 			
 			int playerHealth = 0;
@@ -58,7 +59,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					if(playerHealth > playerMaxHealth)
 						playerMaxHealth = playerHealth;
 					else if(playerHealth <= 0)
-						playerMaxHealth = 100;
+						playerMaxHealth = 0;
 						
 					LFX_Reset();
 
