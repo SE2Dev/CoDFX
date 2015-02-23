@@ -32,7 +32,11 @@ sProcessInfo gSupportedProcessInfo[] =
 	{L"BlackOpsMP.exe",	(BYTE*)0x00E67E6C},
 	{L"t6sp.exe",		(BYTE*)0x01FAB220},
 	{L"t6mp.exe",		(BYTE*)0x021EF968},
-	{L"t6zm.exe",		(BYTE*)0x021C5868}
+	{L"t6zm.exe",		(BYTE*)0x021C5868},
+#if _WIN64 || __amd64__
+	{L"s1_sp64_ship.exe",	(BYTE*)0x143551444},
+	{L"s1_mp64_ship.exe",	(BYTE*)0x1412FE3E8}
+#endif
 };
 
 DWORD gSupportedProcessCount = sizeof(gSupportedProcessInfo) / sizeof(sProcessInfo);
