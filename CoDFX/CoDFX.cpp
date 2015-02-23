@@ -59,7 +59,7 @@ int _tmain(int argc, _TCHAR* argv[])
 					if(playerHealth > playerMaxHealth)
 						playerMaxHealth = playerHealth;
 					else if(playerHealth <= 0)
-						playerMaxHealth = 0;
+						playerMaxHealth = 1;
 						
 					LFX_Reset();
 

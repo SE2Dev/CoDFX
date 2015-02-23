@@ -13,3 +13,4 @@ AlienFX health monitor for Call of Duty
 - Call of Duty: World at War (Steam)
 - Call of Duty: Black Ops (Steam)
 - Call of Duty: Black Ops II (Steam)
+- Call of Duty: Advanced Warfare (Steam)
