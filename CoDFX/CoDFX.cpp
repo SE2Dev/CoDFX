@@ -24,11 +24,9 @@
 #include "ProcessHandler.h"
 #include <iostream>
 
-int _tmain(int argc, _TCHAR* argv[])
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
-
-	HINSTANCE hLibrary = LoadLibrary(_T("LightFX.dll"));
+	HINSTANCE hLibrary = LoadLibrary(L"LightFX.dll");
 	if(hLibrary)
 	{
 		LFX2INITIALIZE LFX_Initialize = (LFX2INITIALIZE)GetProcAddress(hLibrary, LFX_DLL_INITIALIZE);
@@ -79,14 +77,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		else
 		{
-			MessageBox(0,L"Couldn't find a supported process\n",0,0);
+			MessageBox(0,L"ERROR: Couldn't find a supported process\nClosing health monitor",0,0);
 			FreeLibrary(hLibrary);
 			return 0;
 		}	
 	}
 	else
 	{
-		MessageBox(0,L"Couldn't load LightFX.dll\n",0,0);
+		MessageBox(0,L"ERROR: Couldn't load LightFX.dll\n",0,0);
 	}
 	return 0;
 }
