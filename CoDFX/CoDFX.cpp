@@ -35,6 +35,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		LFX2UPDATE LFX_Update = (LFX2UPDATE)GetProcAddress(hLibrary, LFX_DLL_UPDATE);
 		LFX2LIGHT LFX_Light = (LFX2LIGHT)GetProcAddress(hLibrary,LFX_DLL_LIGHT);
 
+		if(!((DWORD)LFX_Initialize | (DWORD)LFX_Release | (DWORD)LFX_Reset | (DWORD)LFX_Update | (DWORD)LFX_Light))
+		{
+			MessageBox(0,"ERROR: LightFX.dll does not contain required functions",0,0);
+			return 0;
+		}
+
 		BYTE* pHealth = nullptr;
 		HANDLE hProcess = OpenFirstSupportedProcess(&pHealth);
 
