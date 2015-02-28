@@ -24,21 +24,33 @@
 #include "ProcessHandler.h"
 #include <iostream>
 
+bool gProcError = false;
+
+FARPROC WINAPI GetProcAddress_s (__in HMODULE hModule, __in LPCSTR lpProcName)
+{
+	FARPROC out = GetProcAddress(hModule, lpProcName);
+	if(out == NULL)
+	{
+		gProcError = true;
+	}
+	return out;
+}
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	HINSTANCE hLibrary = LoadLibrary(L"LightFX.dll");
 	if(hLibrary)
 	{
-		LFX2INITIALIZE LFX_Initialize = (LFX2INITIALIZE)GetProcAddress(hLibrary, LFX_DLL_INITIALIZE);
-		LFX2RELEASE LFX_Release = (LFX2RELEASE)GetProcAddress(hLibrary, LFX_DLL_RELEASE);
-		LFX2RESET LFX_Reset = (LFX2RESET)GetProcAddress(hLibrary,LFX_DLL_RESET);
-		LFX2UPDATE LFX_Update = (LFX2UPDATE)GetProcAddress(hLibrary, LFX_DLL_UPDATE);
-		LFX2LIGHT LFX_Light = (LFX2LIGHT)GetProcAddress(hLibrary,LFX_DLL_LIGHT);
+		LFX2INITIALIZE LFX_Initialize = (LFX2INITIALIZE)GetProcAddress_s(hLibrary, LFX_DLL_INITIALIZE);
+		LFX2RELEASE LFX_Release = (LFX2RELEASE)GetProcAddress_s(hLibrary, LFX_DLL_RELEASE);
+		LFX2RESET LFX_Reset = (LFX2RESET)GetProcAddress_s(hLibrary,LFX_DLL_RESET);
+		LFX2UPDATE LFX_Update = (LFX2UPDATE)GetProcAddress_s(hLibrary, LFX_DLL_UPDATE);
+		LFX2LIGHT LFX_Light = (LFX2LIGHT)GetProcAddress_s(hLibrary,LFX_DLL_LIGHT);
 
-		if(!((DWORD)LFX_Initialize | (DWORD)LFX_Release | (DWORD)LFX_Reset | (DWORD)LFX_Update | (DWORD)LFX_Light))
+		if(gProcError)
 		{
-			MessageBox(0,"ERROR: LightFX.dll does not contain required functions",0,0);
-			return 0;
+			MessageBox(0,L"ERROR: LightFX.dll does not contain a required function",0,0);
+			return 2;
 		}
 
 		BYTE* pHealth = nullptr;
@@ -85,8 +97,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			MessageBox(0,L"ERROR: Couldn't find a supported process\nClosing health monitor",0,0);
 			FreeLibrary(hLibrary);
-			return 0;
-		}	
+			return 1;
+		}
 	}
 	else
 	{
