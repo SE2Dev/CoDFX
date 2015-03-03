@@ -74,8 +74,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					if(playerHealth > playerMaxHealth)
 						playerMaxHealth = playerHealth;
-					else if(playerHealth <= 0)
-						playerMaxHealth = 1;
 						
 					LFX_Reset();
 
@@ -84,6 +82,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					LFX_Light(LFX_ALL,lightSettings);
 					LFX_Update();
+
+					if(playerHealth <= 0) //Fix for lights on instant death from maximum health
+						playerMaxHealth = 1;
 
 					Sleep(10);
 				}				

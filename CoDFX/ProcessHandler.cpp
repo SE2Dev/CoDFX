@@ -34,8 +34,8 @@ sProcessInfo gSupportedProcessInfo[] =
 	{L"t6mp.exe",		(BYTE*)0x021EF968},
 	{L"t6zm.exe",		(BYTE*)0x021C5868},
 #if _WIN64 || __amd64__
-	{L"s1_sp64_ship.exe",	(BYTE*)0x143551444},
-	{L"s1_mp64_ship.exe",	(BYTE*)0x1412FE3E8}
+	{L"s1_sp64_ship.exe",	(BYTE*)0x14102FDD0},
+	{L"s1_mp64_ship.exe",	(BYTE*)0x143FFFBF0},
 #endif
 };
 
