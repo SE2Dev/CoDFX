@@ -36,6 +36,7 @@ sProcessInfo gSupportedProcessInfo[] =
 #if _WIN64 || __amd64__
 	{L"s1_sp64_ship.exe",	(BYTE*)0x14102FDD0},
 	{L"s1_mp64_ship.exe",	(BYTE*)0x1412860F0},
+	{L"iw6mp64_ship.exe",	(BYTE*)0x141770DC8},
 	{L"iw7_ship.exe",		(BYTE*)0x259381F18},
 #endif
 };
